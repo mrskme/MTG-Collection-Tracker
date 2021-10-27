@@ -20,7 +20,7 @@ class PlayingCard {
 
   PlayingCard(var json) {
     this.name = json["name"];
-    this.cmc = json["cmc"];
+    this.cmc = json["cmc"].toInt();
     this.type = json["type"];
     this.types = json["types"];
     this.rarity = json["rarity"];
@@ -36,7 +36,7 @@ class PlayingCard {
     this.printings = json["printings"];
     this.originalType = json["originalType"];
     this.Id = json["id"];
-    this.legalities = json[legalities];
+    this.legalities = json["legalities"];
     printCard();
   }
   printCard() {

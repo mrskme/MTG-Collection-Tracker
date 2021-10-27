@@ -3,23 +3,29 @@ import 'package:get/get.dart';
 import 'dart:convert';
 
 class ApiService extends GetxService {
-  late List<String> _cardNames = ["Waiting for cards"];
+  final RxList<String> _cardNames = ["Waiting for cards"].obs;
+  final RxBool _isLoadingCards = false.obs;
+
   get cardNames => _cardNames;
+  get isLoadingCards => _isLoadingCards.value;
+
   @override
   void onInit() async {
     super.onInit();
-    await decodeCards();
+    await fetchAndDecodeCardNames();
   }
 
-  Future<void> decodeCards() async {
-    var cards = await getCardNames();
-    var dynamicToString = cards.map((e) => e.toString()).toList();
-    print(dynamicToString.length);
-    _cardNames = dynamicToString;
-    //print(_cardNames);
+  Future<void> fetchAndDecodeCardNames() async {
+    print("Now we fetch");
+    _isLoadingCards.value = true;
+    List<dynamic> cards = await fetchCardNames();
+    List<String> dynamicToString = cards.map((e) => e.toString()).toList();
+    _cardNames.value = dynamicToString;
+    _isLoadingCards.value = false;
+    print("fetched and saved all card names. Count ${_cardNames.length}");
   }
 
-  Future<List<dynamic>> getCardNames() async {
+  Future<List<dynamic>> fetchCardNames() async {
     var cardNames;
     try {
       var response =
@@ -27,12 +33,13 @@ class ApiService extends GetxService {
               .get("https://api.scryfall.com/catalog/card-names");
       cardNames = response.data["data"];
     } on Exception catch (e) {
+      cardNames = ["Couldn't find cardnames"];
       print(e);
     }
     return cardNames;
   }
 
-  getOneByName(String name) async {
+  dynamic getOneByName(String name) async {
     var card;
     try {
       var response =
@@ -41,6 +48,7 @@ class ApiService extends GetxService {
       card = response.data["cards"][0];
       print(card);
     } on Exception catch (e) {
+      card = "Couldn't find card";
       print(e);
     }
     return card;

@@ -1,12 +1,19 @@
+import 'package:collection_tracker/card_searcher/card_searcher_controller.dart';
+import 'package:collection_tracker/collection/collection_controller.dart';
+import 'package:collection_tracker/profile/profile_controller.dart';
+import 'package:collection_tracker/wishlist/wishlist_controller.dart';
 import 'package:get/get.dart';
 
 import 'home_page_controller.dart';
 
-class HomePageBindings extends Bindings {
+class HomeMainBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<HomePageController>(
-      () => HomePageController(),
-    );
+    Get.lazyPut<HomeMainController>(() => HomeMainController());
+
+    Get.lazyPut<CardSearcherController>(() => CardSearcherController());
+    Get.lazyPut<CollectionController>(() => CollectionController());
+    Get.lazyPut<ProfileController>(() => ProfileController());
+    Get.lazyPut<WishlistController>(() => WishlistController());
   }
 }

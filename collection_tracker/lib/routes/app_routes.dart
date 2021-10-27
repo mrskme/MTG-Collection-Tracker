@@ -1,13 +1,15 @@
 class Routes {
   Routes._();
 
-  static const Home = Paths.home;
-  static const Searcher = Paths.home + Paths.searcher;
+  static const Home = Paths.homeMain;
+  static const ShowCard = Paths.homeMain + Paths.showCard;
+  static const Searcher = Paths.homeMain + Paths.searcher;
 }
 
 class Paths {
   Paths._();
 
-  static const String home = '/home';
+  static const String homeMain = '/home';
+  static const String showCard = '/showCard';
   static const String searcher = "/searcher";
 }
