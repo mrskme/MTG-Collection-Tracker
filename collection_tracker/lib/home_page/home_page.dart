@@ -43,11 +43,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:get/get.dart';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+// import 'package:flutter/cupertino.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/painting.dart';
 
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 
 import 'home_page_controller.dart';
 
@@ -67,18 +67,19 @@ class _HomeMainState extends State<HomeMain> {
     return GetBuilder<HomeMainController>(
       builder: (controller) {
         return Scaffold(
-            body: SafeArea(
-              child: IndexedStack(
-                index: controller.tabIndex,
-                children: [
-                  CardSearcherPage(),
-                  WishlistPage(),
-                  CollectionPage(),
-                  ProfilePage(),
-                ],
-              ),
+          body: SafeArea(
+            child: IndexedStack(
+              index: controller.tabIndex,
+              children: [
+                CardSearcherPage(),
+                WishlistPage(),
+                CollectionPage(),
+                ProfilePage(),
+              ],
             ),
-            bottomNavigationBar: Stack(children: <Widget>[
+          ),
+          bottomNavigationBar: Stack(
+            children: <Widget>[
               Positioned(
                 child: BottomNavigationBar(
                   key: _bottomNavigationBarKey,
@@ -112,13 +113,15 @@ class _HomeMainState extends State<HomeMain> {
                 top: 0,
                 left: (bottomNavigationBarSize.width / 4) * controller.tabIndex,
                 child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: Container(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Container(
                       height: 3,
-                      width: (bottomNavigationBarSize.width - 80) / 5,
-                    )),
+                      width: (bottomNavigationBarSize.width - 80) / 5),
+                ),
               ),
-            ]));
+            ],
+          ),
+        );
       },
     );
   }
