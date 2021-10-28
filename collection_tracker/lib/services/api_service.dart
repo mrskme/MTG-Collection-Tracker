@@ -7,7 +7,7 @@ class ApiService extends GetxService {
   final RxBool _isLoadingCards = false.obs;
 
   get cardNames => _cardNames;
-  get isLoadingCards => _isLoadingCards.value;
+  get isLoadingCardNames => _isLoadingCards.value;
 
   @override
   void onInit() async {
@@ -18,9 +18,9 @@ class ApiService extends GetxService {
   Future<void> fetchAndDecodeCardNames() async {
     print("Now we fetch");
     _isLoadingCards.value = true;
-    List<dynamic> cards = await fetchCardNames();
-    List<String> dynamicToString = cards.map((e) => e.toString()).toList();
-    _cardNames.value = dynamicToString;
+    List<dynamic> cardsJson = await fetchCardNames();
+    List<String> jsonStringCards = cardsJson.cast<String>();
+    _cardNames.value = jsonStringCards;
     _isLoadingCards.value = false;
     print("fetched and saved all card names. Count ${_cardNames.length}");
   }

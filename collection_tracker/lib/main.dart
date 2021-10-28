@@ -1,5 +1,6 @@
 import 'dart:convert';
 //import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:collection_tracker/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,6 +21,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       themeMode: ThemeMode.dark,
+      //darkTheme: AppTheme.buildAppTheme(),
+      theme: AppTheme.buildAppTheme(),
       title: "test 123",
       debugShowCheckedModeBanner: false,
       initialRoute: Paths.homeMain,
