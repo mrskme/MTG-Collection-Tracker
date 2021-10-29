@@ -3,15 +3,15 @@ class PlayingCard {
   late List<String>? names;
   late String? manaCost;
   late int? cmc;
-  var variations;
-  var watermark;
-  var border;
-  var timeShifted;
-  var hand;
-  var reserved;
-  var releaseDate;
-  var starter;
-  var rulings;
+  late List<String>? variations;
+  // late String? watermark;
+  // late String? border;
+  // late String? timeShifted;
+  // late String? hand;
+  // late String? reserved;
+  // late String? releaseDate;
+  //var starter;
+  late List<dynamic>? rulings;
   late List<String>? colors;
   late List<String>? colorIdentity;
   late String? type;
@@ -46,7 +46,18 @@ class PlayingCard {
   PlayingCard(var json) {
     this.name = json["name"];
     this.names = json["names"]?.cast<String>();
+    this.manaCost = json["manaCost"];
     this.cmc = json["cmc"]?.toInt();
+    this.variations = json["variations"]?.cast<String>();
+    this.rulings = json["rulings"];
+    this.colors = json["colors"].cast<String>();
+    // this.watermark = json["watermark"];
+    // this.border = json["border"];
+    // this.timeShifted = json["timeshifted"];
+    // this.hand = json["hand"];
+    // this.reserved = json["reserved"];
+    // this.releaseDate = json["releasedate"];
+
     this.type = json["type"];
     this.types = json["types"]?.cast<String>();
     this.rarity = json["rarity"];
@@ -66,8 +77,18 @@ class PlayingCard {
     printCard();
   }
   printCard() {
-    print(name);
-    print(cmc);
+    print("name: " + name.toString());
+    print("names: " + names.toString());
+    print("mana cost: " + manaCost.toString());
+    print("cmc: " + cmc.toString());
+    print("varations: " + variations.toString());
+    print("rulings: " + rulings.toString());
+    print("colors: " + colors.toString());
+    // print("watermark: " + watermark.toString());
+    // print("border: " + border.toString());
+    // print("timeshifted: " + timeShifted.toString());
+    // print("hand: " + hand.toString());
+    // print("reserved: " + reserved.toString());
     print(type);
     print(types);
     print(rarity);
