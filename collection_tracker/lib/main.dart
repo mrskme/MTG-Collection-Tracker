@@ -3,14 +3,19 @@ import 'dart:convert';
 import 'package:collection_tracker/theme/app_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'app-bindings.dart';
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
 
 void main() async {
-  await AppBindings().dependencies();
-  runApp(const MyApp());
+  // await AppBindings().dependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -20,12 +25,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      themeMode: ThemeMode.dark,
-      //darkTheme: AppTheme.buildAppTheme(),
       theme: AppTheme.buildAppTheme(),
       title: "test 123",
       debugShowCheckedModeBanner: false,
       initialRoute: Paths.homeMain,
+      initialBinding: InitialBinding(),
       getPages: AppPages.routes,
     );
   }

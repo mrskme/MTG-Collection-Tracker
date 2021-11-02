@@ -6,5 +6,5 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CardSearcherController extends GetxController {
-  PlayingCard? chosenCard;
+  // PlayingCard? chosenCard;
 }

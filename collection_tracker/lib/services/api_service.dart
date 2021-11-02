@@ -45,9 +45,10 @@ class ApiService extends GetxService {
       var response =
           await Dio(BaseOptions(headers: {"Content-Type": "application/json"}))
               .get("https://api.magicthegathering.io/v1/cards?name=$name");
-      card = response.data["cards"].firstWhere((card) => card["name"] == name);
+      card = response.data["cards"].firstWhere(
+          (card) => card["name"] == name && card["imageUrl"] != null);
       print(card);
-    } on Exception catch (e) {
+    } catch (e) {
       card = "Couldn't find card";
       print(e);
     }

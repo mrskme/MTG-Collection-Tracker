@@ -1,39 +1,3 @@
-// import 'dart:convert';
-
-// import 'package:collection_tracker/routes/app_routes.dart';
-// import 'package:dio/dio.dart';
-// import 'package:get/get.dart';
-// import 'package:flutter/material.dart';
-// import 'dart:ui';
-// import 'dart:async';
-
-// import 'home_page_controller.dart';
-
-// class HomePage extends GetView<HomePageController> {
-//   HomePage() {}
-//   @override
-//   Widget build(BuildContext context) {
-//     fetchCards();
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Container(
-//               child: TextButton(
-//                 child: Text("Go to searcher"),
-//                 onPressed: () => {
-//                   Get.toNamed(Routes.Searcher),
-//                 },
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:collection_tracker/card_searcher/card_searcher_page.dart';
 import 'package:collection_tracker/collection/collection_page.dart';
 import 'package:collection_tracker/profile/profile_page.dart';
@@ -83,13 +47,11 @@ class _HomeMainState extends State<HomeMain> {
               Positioned(
                 child: BottomNavigationBar(
                   key: _bottomNavigationBarKey,
-                  //funksjonaliteten til navigasjonsbaren ligger i controller
                   onTap: controller.changeTabIndex,
                   currentIndex: controller.tabIndex,
                   showSelectedLabels: true,
                   showUnselectedLabels: true,
                   type: BottomNavigationBarType.fixed,
-                  //her er hvert element i navigasjonsbaren, du kan bytte ut ikonene med andre.
                   items: [
                     BottomNavigationBarItem(
                         icon: Icon(Icons.manage_search_rounded),

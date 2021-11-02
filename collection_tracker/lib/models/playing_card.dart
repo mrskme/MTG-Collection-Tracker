@@ -1,23 +1,13 @@
+import 'package:flutter/material.dart';
+
 class PlayingCard {
   late String? name;
   late List<String>? names;
   late String? manaCost;
   late int? cmc;
   late List<String>? variations;
-  // late String? watermark;
-  // late String? border;
-  // late String? timeShifted;
-  // late String? hand;
-  // late String? reserved;
-  // late String? releaseDate;
-  //var starter;
   late List<dynamic>? rulings;
-  late List<String>? colors;
-  late List<String>? colorIdentity;
   late String? type;
-  late List<String>? supertypes;
-  late List<String>? types;
-  late List<String>? subtypes;
   late String? rarity;
   late String? set;
   late String? setName;
@@ -27,21 +17,17 @@ class PlayingCard {
   late String? number;
   late String? power;
   late String? toughness;
+  late String? life;
   late int? loyality;
-  late List<String> gameFormats;
-  var legality;
-  var legalities;
-  // var page;
-  // var pageSize;
-  // var orderBy;
+  late List<String>? gameFormat;
+  late List<dynamic>? legalities;
   late String? layout;
   late String? multiverseId;
-  var imageUrl;
-  var printings;
-  var originalType;
-  var originalText;
-  var source;
-  var Id;
+  late String? imageUrl;
+  late List<String>? printings;
+  late String? id;
+
+  var nothing = SizedBox.shrink();
 
   PlayingCard(var json) {
     this.name = json["name"];
@@ -50,16 +36,7 @@ class PlayingCard {
     this.cmc = json["cmc"]?.toInt();
     this.variations = json["variations"]?.cast<String>();
     this.rulings = json["rulings"];
-    this.colors = json["colors"].cast<String>();
-    // this.watermark = json["watermark"];
-    // this.border = json["border"];
-    // this.timeShifted = json["timeshifted"];
-    // this.hand = json["hand"];
-    // this.reserved = json["reserved"];
-    // this.releaseDate = json["releasedate"];
-
     this.type = json["type"];
-    this.types = json["types"]?.cast<String>();
     this.rarity = json["rarity"];
     this.set = json["set"];
     this.setName = json["setName"];
@@ -67,15 +44,52 @@ class PlayingCard {
     this.flavor = json["flavor"];
     this.artist = json["artist"];
     this.number = json["number"];
+    this.power = json["power"];
+    this.toughness = json["toughness"];
+    this.life = json["life"];
+    this.loyality = json["loyality"]?.toInt();
     this.layout = json["layout"];
     this.multiverseId = json["multiverseid"];
     this.imageUrl = json["imageUrl"];
-    this.printings = json["printings"];
-    this.originalType = json["originalType"];
-    this.Id = json["id"];
+    this.printings = json["printings"].cast<String>();
+    this.id = json["id"];
+    this.gameFormat = json["gameFormat"];
     this.legalities = json["legalities"];
     printCard();
   }
+
+  showCardText(double screenHight) {
+    if (text != null) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: screenHight * 0.03),
+        child: Text(
+          text!,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 17,
+          ),
+        ),
+      );
+    }
+    return nothing;
+  }
+
+  showCMC(double screenHight) {
+    if (cmc != null && cmc != 0) {
+      return Padding(
+        padding: EdgeInsets.only(top: screenHight * 0.02),
+        child: Text(
+          "CMC: " + cmc!.toString(),
+          textAlign: TextAlign.end,
+          style: TextStyle(
+            fontSize: 17,
+          ),
+        ),
+      );
+    }
+    return nothing;
+  }
+
   printCard() {
     print("name: " + name.toString());
     print("names: " + names.toString());
@@ -83,27 +97,24 @@ class PlayingCard {
     print("cmc: " + cmc.toString());
     print("varations: " + variations.toString());
     print("rulings: " + rulings.toString());
-    print("colors: " + colors.toString());
-    // print("watermark: " + watermark.toString());
-    // print("border: " + border.toString());
-    // print("timeshifted: " + timeShifted.toString());
-    // print("hand: " + hand.toString());
-    // print("reserved: " + reserved.toString());
-    print(type);
-    print(types);
-    print(rarity);
-    print(text);
-    print(set);
-    print(setName);
-    print(flavor);
-    print(artist);
-    print(number);
-    print(layout);
-    print(multiverseId);
-    print(imageUrl);
-    print(printings);
-    print(originalType);
-    print(Id);
-    print(legalities);
+    print("type: " + type.toString());
+    print("rarity: " + rarity.toString());
+    print("text: " + text.toString());
+    print("set: " + set.toString());
+    print("setName: " + setName.toString());
+    print("flavor: " + flavor.toString());
+    print("artist: " + artist.toString());
+    print("number: " + number.toString());
+    print("power: " + power.toString());
+    print("toughness: " + toughness.toString());
+    print("loyality: " + loyality.toString());
+    print("life: " + life.toString());
+    print("layout: " + layout.toString());
+    print("multiverseId: " + multiverseId.toString());
+    print("imageUrl: " + imageUrl.toString());
+    print("printing: " + printings.toString());
+    print("Id: " + id.toString());
+    print("gameFormat: " + gameFormat.toString());
+    print("legalities: " + legalities.toString());
   }
 }

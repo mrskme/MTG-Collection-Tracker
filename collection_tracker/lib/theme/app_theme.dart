@@ -1,28 +1,24 @@
+import 'package:collection_tracker/theme/theme_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
   AppTheme._();
-  static buildAppTheme() {
-    final ThemeData darkTheme = ThemeData(
+  static ThemeData buildAppTheme() {
+    final ThemeData theme = ThemeData(
       fontFamily: 'Berelen',
+      primaryColor: AppColors.primaryColor,
       progressIndicatorTheme: ProgressIndicatorThemeData(
-        color: Colors.black54,
+        color: AppColors.darkGreyBlue,
       ),
-      //   backgroundColor: LinearGradient(
-      //     begin: Alignment.topCenter,
-      //     end: Alignment.bottomCenter,
-      //     stops: const [
-      //       0.1,
-      //       0.4,
-      //       0.6,
-      //       0.9,
-      //     ],
-      //     colors: [
-      //       Colors.blue.shade50,
-      //       Colors.blue.shade500,
-      //     ],
-      //   ),
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.darkGrey,
+      ),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: AppColors.mediumBlueGrey,
+        selectedItemColor: AppColors.darkGrey,
+        unselectedItemColor: Colors.grey.shade200,
+      ),
     );
-    return darkTheme;
+    return theme;
   }
 }
