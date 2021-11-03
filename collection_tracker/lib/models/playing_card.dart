@@ -74,7 +74,29 @@ class PlayingCard {
     return nothing;
   }
 
-  showCMC(double screenHight) {
+  showManaCostImages() {
+    Map<String, String> images = {
+      // "W" :
+      // "2/W" : "",
+      "G/U": "assets/manaSymbols/GU.png",
+    };
+    List<Widget> row = [];
+    if (manaCost != null) {
+      var parts = manaCost!.split('}{');
+      parts[0] = parts[0].substring(1);
+      var lastIndex = parts.length - 1;
+      parts[lastIndex] =
+          parts[lastIndex].substring(0, parts[lastIndex].length - 1);
+      var image = images["G/U"];
+      row.add(Image(image: AssetImage(image!)));
+    }
+    print(row);
+    return Row(
+      children: row,
+    );
+  }
+
+  showTotalCMC(double screenHight) {
     if (cmc != null && cmc != 0) {
       return Padding(
         padding: EdgeInsets.only(top: screenHight * 0.02),

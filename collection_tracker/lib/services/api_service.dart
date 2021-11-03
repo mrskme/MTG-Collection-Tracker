@@ -39,6 +39,7 @@ class ApiService extends GetxService {
     return cardNames;
   }
 
+//https://api.magicthegathering.io/v1/cards?type=land&&name=cradle  and parameter
   dynamic getOneByName(String name) async {
     var card;
     try {

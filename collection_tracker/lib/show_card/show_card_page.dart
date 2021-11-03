@@ -1,6 +1,7 @@
 import 'package:collection_tracker/card_searcher/card_searcher_controller.dart';
 import 'package:collection_tracker/models/playing_card.dart';
 import 'package:collection_tracker/services/api_service.dart';
+import 'package:collection_tracker/theme/text_theme.dart';
 import 'package:collection_tracker/theme/theme_constants.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class ShowCardPage extends GetView<ShowCardController> {
     var card = controller.card;
     var screenSize = MediaQuery.of(context).size;
     var screenHeight = screenSize.height;
-    var cardHeight = screenSize.height * 0.47;
+    var cardHeight = screenSize.height * 0.55;
     var cardWidth = cardHeight * (cardWidthPercentageOfHeight / 100);
     return Scaffold(
       appBar: AppWidgets.staticAppBar("", context),
@@ -41,16 +42,13 @@ class ShowCardPage extends GetView<ShowCardController> {
                     Text(
                       card.name!,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 34,
-                      ),
+                      style: AppTextTheme.headline1,
                     ),
+                    card.showManaCostImages(),
                     Text(
                       card.type!,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 21,
-                      ),
+                      style: AppTextTheme.headline2,
                     ),
                     if (card.imageUrl != null)
                       Padding(
@@ -89,22 +87,21 @@ class ShowCardPage extends GetView<ShowCardController> {
                       padding: EdgeInsets.symmetric(
                           horizontal: screenSize.width * 0.05),
                       child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: screenSize.height * 0.03),
                           card.showCardText(screenHeight),
-                          Text(
-                            "Card info",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 21,
+                          Center(
+                            child: Text(
+                              "Card info",
+                              style: AppTextTheme.headline2,
                             ),
                           ),
                           Divider(
                             color: Colors.black,
                           ),
-                          card.showCMC(screenHeight),
+                          card.showTotalCMC(screenHeight),
                         ],
                       ),
                     ),
