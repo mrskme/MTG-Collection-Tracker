@@ -11,7 +11,6 @@ class AppSizes {
 
 class AppColors {
   static Color primaryColor = Colors.grey.shade800;
-  // static Color secondaryColor = Colors.orange;
   static Color darkGreyBlue = Colors.blueGrey.shade600;
   static Color mediumBlueGrey = Colors.blueGrey.shade400;
   static Color lightBlueGrey = Colors.blueGrey.shade100;
@@ -34,17 +33,6 @@ class AppWidgets {
     return AppBar(
       title: Text(text),
       centerTitle: true,
-      // leading: Navigator.canPop(context)
-      //     ? IconButton(
-      //         icon: Icon(
-      //           Icons.arrow_back_rounded,
-      //           color: Colors.white,
-      //           size: 30,
-      //         ),
-      //         onPressed: () => Get.back(),
-      //       )
-      //     : null,
-      //iconTheme: IconThemeData(size: 10, color: Colors.white),
     );
   }
 }

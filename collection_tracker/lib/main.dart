@@ -24,6 +24,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Color(0xFF141414),
+      ),
+    );
     return GetMaterialApp(
       theme: AppTheme.buildAppTheme(),
       title: "test 123",

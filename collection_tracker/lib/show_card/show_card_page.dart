@@ -21,7 +21,9 @@ class ShowCardPage extends GetView<ShowCardController> {
     var cardHeight = screenSize.height * 0.55;
     var cardWidth = cardHeight * (cardWidthPercentageOfHeight / 100);
     return Scaffold(
-      appBar: AppWidgets.staticAppBar("", context),
+      appBar: AppBar(
+        centerTitle: true,
+      ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return SingleChildScrollView(
@@ -44,45 +46,45 @@ class ShowCardPage extends GetView<ShowCardController> {
                       textAlign: TextAlign.center,
                       style: AppTextTheme.headline1,
                     ),
-                    card.showManaCostImages(),
+                    card.makeRowWithSvgSymbolsFromString(
+                        screenHeight, 0.033, card.manaCost),
+                    card.addManaCostSymbolsInText(),
+                    SizedBox(
+                      height: screenSize.height * 0.01,
+                    ),
                     Text(
                       card.type!,
                       textAlign: TextAlign.center,
                       style: AppTextTheme.headline2,
                     ),
                     if (card.imageUrl != null)
-                      Padding(
-                        padding:
-                            EdgeInsets.only(top: screenSize.height * 0.015),
-                        child: Align(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(14),
-                            child: Image.network(
-                              card.imageUrl!,
-                              height: cardHeight,
-                              width: cardWidth,
-                              fit: BoxFit.contain,
-                              loadingBuilder: (BuildContext context,
-                                  Widget child,
-                                  ImageChunkEvent? loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                }
-                                return Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes !=
-                                            null
-                                        ? loadingProgress
-                                                .cumulativeBytesLoaded /
-                                            loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
+                      SizedBox(height: screenSize.height * 0.015),
+                    Align(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: Image.network(
+                          card.imageUrl!,
+                          height: cardHeight,
+                          width: cardWidth,
+                          fit: BoxFit.contain,
+                          loadingBuilder: (BuildContext context, Widget child,
+                              ImageChunkEvent? loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
                         ),
                       ),
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: screenSize.width * 0.05),
@@ -102,6 +104,9 @@ class ShowCardPage extends GetView<ShowCardController> {
                             color: Colors.black,
                           ),
                           card.showTotalCMC(screenHeight),
+                          SizedBox(
+                            height: 200,
+                          )
                         ],
                       ),
                     ),
@@ -114,7 +119,4 @@ class ShowCardPage extends GetView<ShowCardController> {
       ),
     );
   }
-  // cardCMC() {
-  //   if ()
-  // }
 }

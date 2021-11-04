@@ -5,6 +5,11 @@ Collection library
 Wishlist
 See cards you search for
 Modifiers, checkmarks og restrictions til card searcher (klikk for å vise options eller allerede ute)
-add deck to wishlist eller collection, velg format                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+add deck to wishlist eller collection, velg format
+
+hente ut alle bilder fra https://scryfall.com/docs/api/card-symbols/all og lagre lokalt
+
+
 
 BUGS: 
+mana symbols funker ikke for colorless 5+

@@ -1,4 +1,6 @@
+import 'package:collection_tracker/theme/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class PlayingCard {
   late String? name;
@@ -30,6 +32,7 @@ class PlayingCard {
   var nothing = SizedBox.shrink();
 
   PlayingCard(var json) {
+    //print(json);
     this.name = json["name"];
     this.names = json["names"]?.cast<String>();
     this.manaCost = json["manaCost"];
@@ -65,35 +68,77 @@ class PlayingCard {
         child: Text(
           text!,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 17,
-          ),
         ),
       );
     }
     return nothing;
   }
 
-  showManaCostImages() {
-    Map<String, String> images = {
-      // "W" :
-      // "2/W" : "",
-      "G/U": "assets/manaSymbols/GU.png",
-    };
-    List<Widget> row = [];
-    if (manaCost != null) {
-      var parts = manaCost!.split('}{');
-      parts[0] = parts[0].substring(1);
-      var lastIndex = parts.length - 1;
-      parts[lastIndex] =
-          parts[lastIndex].substring(0, parts[lastIndex].length - 1);
-      var image = images["G/U"];
-      row.add(Image(image: AssetImage(image!)));
+  addManaCostSymbolsInText() {
+    var s = text!.split(r"}|{");
+    s.forEach((e) => {
+          print(e),
+        });
+    print(s);
+    // var firstIndex = text!.indexOf("{");
+    // var lastIndex = text!.lastIndexOf("}");
+    // print("index of: " + firstIndex.toString());
+    // var b = text!.substring(firstIndex, lastIndex + 1);
+    // print(b);
+
+    return Text.rich(TextSpan(
+      children: <InlineSpan>[
+        TextSpan(text: 'MAMA OF BAKER'),
+        WidgetSpan(
+          child: SvgPicture.asset(
+            "assets/symbols/Q.svg",
+            height: 18,
+            width: 18,
+          ),
+        ),
+        TextSpan(text: 'ULTRA CAKE OF DOOM!'),
+      ],
+    ));
+  }
+
+  //ethersworn adjucator
+  makeRowWithSvgSymbolsFromString(
+    double screenHight,
+    double sizeMultiplier,
+    String? manaCostString,
+  ) {
+    var imageSize = screenHight * sizeMultiplier;
+    List<Widget> rowOfImages = [];
+    if (manaCostString != null) {
+      var symbolName = manaCostString.split('}{');
+      symbolName[0] = symbolName[0].substring(1);
+      var lastIndex = symbolName.length - 1;
+      symbolName[lastIndex] =
+          symbolName[lastIndex].substring(0, symbolName[lastIndex].length - 1);
+
+      symbolName.forEach(
+        (part) => {
+          part = part.replaceAll("/", ""),
+          rowOfImages.add(
+            SvgPicture.asset(
+              "assets/symbols/$part.svg",
+              height: imageSize,
+              width: imageSize,
+            ),
+          ),
+        },
+      );
     }
-    print(row);
     return Row(
-      children: row,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: rowOfImages,
     );
+    // Også kul løsning
+    // Map<String, String> images = {
+    //   // "W" :
+    //   // "2/W" : "",
+    //   "G/U": "assets/manaSymbols/GU.png",
+    // };
   }
 
   showTotalCMC(double screenHight) {
@@ -103,9 +148,6 @@ class PlayingCard {
         child: Text(
           "CMC: " + cmc!.toString(),
           textAlign: TextAlign.end,
-          style: TextStyle(
-            fontSize: 17,
-          ),
         ),
       );
     }
@@ -113,30 +155,30 @@ class PlayingCard {
   }
 
   printCard() {
-    print("name: " + name.toString());
-    print("names: " + names.toString());
+    // print("name: " + name.toString());
+    // print("names: " + names.toString());
     print("mana cost: " + manaCost.toString());
-    print("cmc: " + cmc.toString());
-    print("varations: " + variations.toString());
-    print("rulings: " + rulings.toString());
-    print("type: " + type.toString());
-    print("rarity: " + rarity.toString());
+    // print("cmc: " + cmc.toString());
+    // print("varations: " + variations.toString());
+    // print("rulings: " + rulings.toString());
+    // print("type: " + type.toString());
+    // print("rarity: " + rarity.toString());
     print("text: " + text.toString());
-    print("set: " + set.toString());
-    print("setName: " + setName.toString());
-    print("flavor: " + flavor.toString());
-    print("artist: " + artist.toString());
-    print("number: " + number.toString());
-    print("power: " + power.toString());
-    print("toughness: " + toughness.toString());
-    print("loyality: " + loyality.toString());
-    print("life: " + life.toString());
-    print("layout: " + layout.toString());
-    print("multiverseId: " + multiverseId.toString());
-    print("imageUrl: " + imageUrl.toString());
-    print("printing: " + printings.toString());
-    print("Id: " + id.toString());
-    print("gameFormat: " + gameFormat.toString());
-    print("legalities: " + legalities.toString());
+    // print("set: " + set.toString());
+    // print("setName: " + setName.toString());
+    // print("flavor: " + flavor.toString());
+    // print("artist: " + artist.toString());
+    // print("number: " + number.toString());
+    // print("power: " + power.toString());
+    // print("toughness: " + toughness.toString());
+    // print("loyality: " + loyality.toString());
+    // print("life: " + life.toString());
+    // print("layout: " + layout.toString());
+    // print("multiverseId: " + multiverseId.toString());
+    // print("imageUrl: " + imageUrl.toString());
+    // print("printing: " + printings.toString());
+    // print("Id: " + id.toString());
+    // print("gameFormat: " + gameFormat.toString());
+    // print("legalities: " + legalities.toString());
   }
 }

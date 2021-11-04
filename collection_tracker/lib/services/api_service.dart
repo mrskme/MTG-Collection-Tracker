@@ -16,13 +16,13 @@ class ApiService extends GetxService {
   }
 
   Future<void> fetchAndDecodeCardNames() async {
-    print("Now we fetch");
+    print("Fetching all card names");
     _isLoadingCards.value = true;
     List<dynamic> cardsJson = await fetchCardNames();
     List<String> jsonStringCards = cardsJson.cast<String>();
     _cardNames.value = jsonStringCards;
     _isLoadingCards.value = false;
-    print("fetched and saved all card names. Count ${_cardNames.length}");
+    print("Fetched and saved all card names. Count ${_cardNames.length}");
   }
 
   Future<List<dynamic>> fetchCardNames() async {
@@ -41,6 +41,7 @@ class ApiService extends GetxService {
 
 //https://api.magicthegathering.io/v1/cards?type=land&&name=cradle  and parameter
   dynamic getOneByName(String name) async {
+    print("Fetching one card");
     var card;
     try {
       var response =
@@ -48,11 +49,11 @@ class ApiService extends GetxService {
               .get("https://api.magicthegathering.io/v1/cards?name=$name");
       card = response.data["cards"].firstWhere(
           (card) => card["name"] == name && card["imageUrl"] != null);
-      print(card);
     } catch (e) {
       card = "Couldn't find card";
       print(e);
     }
+    print("One card fetched");
     return card;
   }
 }
