@@ -80,6 +80,16 @@ flutter:
     - family: Berelen
       fonts:
         - asset: assets/fonts/Berelen/Beleren2016-Bold.ttf
+        - asset: assets/fonts/Berelen/Beleren2016SmallCaps-BoldItalic.ttf
+          style: italic
+
+    - family: MPlantin
+      fonts: 
+        - asset: assets/fonts/MPlantin/MPlantin.ttf 
+        - asset: assets/fonts/MPlantin/MPlantin-Italic.ttf
+          style: italic
+        - asset: assets/fonts/MPlantin/MPlantin-Bold.ttf
+          weight: 700
         # - asset: fonts/Schyler-Italic.ttf
           # style: italic
   #   - family: Trajan Pro

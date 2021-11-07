@@ -3,6 +3,7 @@ import 'package:collection_tracker/models/playing_card.dart';
 import 'package:collection_tracker/routes/app_routes.dart';
 import 'package:collection_tracker/services/api_service.dart';
 import 'package:collection_tracker/show_card/show_card_controller.dart';
+import 'package:collection_tracker/theme/text_theme.dart';
 import 'package:collection_tracker/theme/theme_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
@@ -96,6 +97,7 @@ class AutoCompleteInput extends GetView<CardSearcherController> {
       },
       fieldViewBuilder: (context, controller, focusNode, onEditingComplete) {
         return TextField(
+          style: AppTextTheme.bodyText1,
           onSubmitted: onSelected,
           cursorColor: AppColors.darkGreyBlue,
           controller: controller,
@@ -178,7 +180,10 @@ class _AutocompleteOptions<T extends Object>
                   return Container(
                     color: highlight ? AppColors.lightBlueGrey : null,
                     padding: const EdgeInsets.all(16.0),
-                    child: Text(displayStringForOption(option)),
+                    child: Text(
+                      displayStringForOption(option),
+                      style: AppTextTheme.bodyText1,
+                    ),
                   );
                 }),
               );

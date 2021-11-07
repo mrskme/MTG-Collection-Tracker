@@ -18,7 +18,7 @@ class ShowCardPage extends GetView<ShowCardController> {
     var card = controller.card;
     var screenSize = MediaQuery.of(context).size;
     var screenHeight = screenSize.height;
-    var cardHeight = screenSize.height * 0.55;
+    var cardHeight = screenSize.height * 0.50;
     var cardWidth = cardHeight * (cardWidthPercentageOfHeight / 100);
     return Scaffold(
       appBar: AppBar(
@@ -26,6 +26,9 @@ class ShowCardPage extends GetView<ShowCardController> {
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          var defaultHeight = screenHeight * AppSizes.marginDefault;
+          var smallHeight = screenHeight * AppSizes.marginSmall;
+          var microHeight = screenHeight * AppSizes.marginMicro;
           return SingleChildScrollView(
             child: ConstrainedBox(
               constraints:
@@ -35,81 +38,109 @@ class ShowCardPage extends GetView<ShowCardController> {
                 decoration:
                     BoxDecoration(gradient: AppWidgets.backgreoundGradient),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      height: screenSize.height * 0.03,
+                      height: defaultHeight,
                     ),
                     Text(
                       card.name!,
                       textAlign: TextAlign.center,
                       style: AppTextTheme.headline1,
                     ),
-                    card.makeRowWithSvgSymbolsFromString(
-                        screenHeight, 0.033, card.manaCost),
-                    card.addManaCostSymbolsInText(),
+                    Center(
+                      child: card.addManaSymbolsToString(
+                          screenHeight * 0.026, card.manaCost),
+                    ),
                     SizedBox(
-                      height: screenSize.height * 0.01,
+                      height: microHeight,
                     ),
                     Text(
                       card.type!,
                       textAlign: TextAlign.center,
                       style: AppTextTheme.headline2,
                     ),
-                    if (card.imageUrl != null)
-                      SizedBox(height: screenSize.height * 0.015),
+                    if (card.imageUrl != null) SizedBox(height: smallHeight),
                     Align(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: Image.network(
-                          card.imageUrl!,
-                          height: cardHeight,
-                          width: cardWidth,
-                          fit: BoxFit.contain,
-                          loadingBuilder: (BuildContext context, Widget child,
-                              ImageChunkEvent? loadingProgress) {
-                            if (loadingProgress == null) {
-                              return child;
-                            }
-                            return Center(
-                              child: CircularProgressIndicator(
-                                value: loadingProgress.expectedTotalBytes !=
-                                        null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
-                              ),
-                            );
-                          },
+                      child: Container(
+                        height: cardHeight,
+                        width: cardWidth,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(14),
+                          child: Image.network(
+                            card.imageUrl!,
+                            height: cardHeight,
+                            width: cardWidth,
+                            fit: BoxFit.contain,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: SizedBox(
+                                  height: screenSize.height * 0.15,
+                                  width: screenSize.height * 0.15,
+                                  child: LinearProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.width * 0.05),
+                      padding: EdgeInsets.symmetric(horizontal: defaultHeight),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: screenSize.height * 0.03),
-                          card.showCardText(screenHeight),
+                          SizedBox(height: defaultHeight),
+                          Center(
+                            child: card.addManaSymbolsToString(
+                                screenHeight * 0.019, card.text!),
+                          ),
+                          SizedBox(
+                            height: defaultHeight,
+                          ),
                           Center(
                             child: Text(
                               "Card info",
-                              style: AppTextTheme.headline2,
+                              style: AppTextTheme.headline3,
                             ),
                           ),
                           Divider(
                             color: Colors.black,
                           ),
-                          card.showTotalCMC(screenHeight),
                           SizedBox(
-                            height: 200,
+                            height: smallHeight,
+                          ),
+                          card.showFlavor(microHeight),
+                          card.showTotalCMC(microHeight),
+                          card.showAttributeStatsThingys(microHeight),
+                          card.showRarity(microHeight),
+                          card.showSet(microHeight),
+                          card.showArtist(microHeight),
+                          card.showRulings(screenSize),
+                          SizedBox(
+                            height: smallHeight, //or defaultHeight?
                           )
                         ],
                       ),
                     ),
+                    Center(
+                      child: card.showLegalities(screenSize),
+                    ),
+                    SizedBox(
+                      height: smallHeight, //or defaultHeight?
+                    )
                   ],
                 ),
               ),

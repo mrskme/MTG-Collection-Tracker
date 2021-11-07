@@ -7,7 +7,7 @@ class AppTheme {
   AppTheme._();
   static ThemeData buildAppTheme() {
     final ThemeData theme = ThemeData(
-      fontFamily: 'Berelen',
+      fontFamily: 'MPlantin',
       textTheme: AppTextTheme.appTextTheme,
       primaryColor: AppColors.primaryColor,
       progressIndicatorTheme: ProgressIndicatorThemeData(
