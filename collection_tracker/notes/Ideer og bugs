@@ -6,10 +6,25 @@ Wishlist
 See cards you search for
 Modifiers, checkmarks og restrictions til card searcher (klikk for å vise options eller allerede ute)
 add deck to wishlist eller collection, velg format
+cache alle card names og bare oppdater hvis den er annerledes ens
+add basic lands i deck
+diagram som viser prosent farger i decket
 
 hente ut alle bilder fra https://scryfall.com/docs/api/card-symbols/all og lagre lokalt
 
+BUGS:
+addManaSymbolsToString() {
+    få ekstra linjeavstand på \n;
+    colossus hammer bug med parentes i tekst i show card text;
+    maalfield twins 22 black zombies
+}
+hente ut alle som ikke er legal i legalities => List<String> ["format1", "format2"].where((e) => {response.forEach((i) => {!e.contains(i)})})
+gather specimens rulings bug i parentes
+noen dual cards funker ikke (response4 // resurgence)
+
+legg animation og buttons ogsånt i controller og få det til å funke med getx
 
 
-BUGS: 
-mana symbols funker ikke for colorless 5+
+nyttige ting:
+
+søk etter icons: https://fonts.google.com/icons?selected=Material+Icons&icon.query=minus

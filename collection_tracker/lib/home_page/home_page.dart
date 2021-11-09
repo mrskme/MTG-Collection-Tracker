@@ -1,5 +1,6 @@
 import 'package:collection_tracker/card_searcher/card_searcher_page.dart';
 import 'package:collection_tracker/collection/collection_page.dart';
+import 'package:collection_tracker/deck/deck_page.dart';
 import 'package:collection_tracker/profile/profile_page.dart';
 import 'package:collection_tracker/wishlist/wishlist_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,6 +38,7 @@ class _HomeMainState extends State<HomeMain> {
               children: [
                 CardSearcherPage(),
                 WishlistPage(),
+                DeckPage(),
                 CollectionPage(),
                 ProfilePage(),
               ],
@@ -59,6 +61,10 @@ class _HomeMainState extends State<HomeMain> {
                     BottomNavigationBarItem(
                       icon: Icon(Icons.favorite_rounded),
                       label: "Wishlist",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(CupertinoIcons.layers_alt_fill),
+                      label: "Decks",
                     ),
                     BottomNavigationBarItem(
                       icon: Icon(Icons.collections_bookmark_rounded),

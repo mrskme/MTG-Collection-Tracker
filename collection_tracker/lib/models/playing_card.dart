@@ -74,6 +74,7 @@ class PlayingCard {
         var item = split[i];
         item = item.replaceAll("#", "\n");
         if (item.contains("(") && item.contains(")")) {
+          //colossus hammer bug
           int start = item.indexOf("(");
           int end = item.indexOf(")");
           var preParenthesisText = item.substring(0, start);
@@ -88,14 +89,20 @@ class PlayingCard {
           widgets.add(TextSpan(text: postParenthesisText));
         } else if (item.contains(RegExp("^[A-Z0-9]")) && item.length < 3) {
           widgets.add(WidgetSpan(
-            child: SvgPicture.asset(
-              "assets/symbols/$item.svg",
-              fit: BoxFit.fill,
-              alignment: Alignment.bottomLeft,
-              clipBehavior: Clip.none,
-              height: imageSize,
-              width: imageSize,
-              allowDrawingOutsideViewBox: true,
+            baseline: TextBaseline.ideographic,
+            child: Container(
+              transform: shouldTransform
+                  ? Matrix4.translationValues(0, -2.5, 0)
+                  : Matrix4.translationValues(0, 0, 0),
+              child: SvgPicture.asset(
+                "assets/symbols/$item.svg",
+                fit: BoxFit.fill,
+                alignment: Alignment.bottomLeft,
+                clipBehavior: Clip.none,
+                height: imageSize,
+                width: imageSize,
+                allowDrawingOutsideViewBox: true,
+              ),
             ),
           ));
         } else {
@@ -106,6 +113,7 @@ class PlayingCard {
         TextSpan(
           children: widgets,
         ),
+        textAlign: isCenterText ? TextAlign.center : TextAlign.start,
       );
     }
     return nothing;
@@ -140,49 +148,59 @@ class PlayingCard {
   //showLegalitiesWithLoop
   showLegalities(Size screenSize) {
     if (legalities != null) {
+      var tinySizeMultiplier = 0.005;
       return Wrap(
-        spacing: 4,
-        runSpacing: 4,
+        spacing: screenSize.height * tinySizeMultiplier,
+        runSpacing: screenSize.height * tinySizeMultiplier,
         crossAxisAlignment: WrapCrossAlignment.center,
         alignment: WrapAlignment.center,
         children: <Widget>[
+          SizedBox(
+            height: screenSize.height *
+                (AppSizes.marginDefault -
+                    tinySizeMultiplier -
+                    AppSizes.marginSmall),
+          ),
           Center(
             child: Text(
               "Legalities",
               style: AppTextTheme.headline3,
             ),
           ),
-          Padding(
+          Container(
+            margin: EdgeInsets.only(
+                bottom: screenSize.height *
+                    (AppSizes.marginSmall - tinySizeMultiplier)),
             padding: EdgeInsets.symmetric(
                 horizontal: screenSize.height * AppSizes.marginDefault),
             child: Divider(
               color: Colors.black,
             ),
           ),
-          // SizedBox(
-          //   height: screenSize.height * AppSizes.marginSmall,
-          // ),
           for (var i = 0; i < legalities!.length; i++)
             Card(
               color: Colors.green,
               // shape: RoundedRectangleBorder(
+              //   side: BorderSide(
+              //     color: AppColors.darkGreyBlue,
+              //   ),
               //   borderRadius: BorderRadius.circular(8),
               // ),
               shape: BeveledRectangleBorder(
                 side: BorderSide(
                   color: AppColors.darkGreyBlue,
-                 ),
-                borderRadius: BorderRadius.circular(10.0),
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
               // shape: StadiumBorder(
               //   side: BorderSide(
-              //     color: Colors.black,
-              //     width: 2.0,
+              //     color: AppColors.darkGreyBlue,
+              //     //width: 2.0,
               //   ),
               // ),
               child: Container(
                 height: screenSize.height * 0.07,
-                width: screenSize.width * 0.40,
+                width: screenSize.width * 0.42,
                 child: Center(
                   child: Text(
                     "${legalities![i]["format"]}: ${legalities![i]["legality"]}",
@@ -201,44 +219,46 @@ class PlayingCard {
     return nothing;
   }
 
-  showRulings(Size screenSize) {
+  showRulings(Size screenSize, double imageSize) {
+    var widgets = [];
     if (rulings != null) {
-      var microSize = screenSize.height * AppSizes.marginMicro;
-      return Padding(
-        padding: EdgeInsets.only(bottom: microSize),
-        child: Flexible(
-          child: Padding(
-            padding: EdgeInsets.only(left: microSize),
-            child: Container(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: screenSize.height * AppSizes.marginDefault,
-                  ),
-                  Text(
-                    "Rulings",
-                    style: AppTextTheme.headline3,
-                  ),
-                  Divider(
-                    color: Colors.black,
-                  ),
-                  SizedBox(
-                    height: screenSize.height * AppSizes.marginSmall,
-                  ),
-                  for (var i = 0; i < rulings!.length; i++)
-                    Column(
-                      children: [
-                        Text("${rulings![i]["date"]}"),
-                        Text("${rulings![i]["text"]}"),
-                        SizedBox(
-                          height: microSize,
-                        ),
-                      ],
-                    )
-                ],
-              ),
+      var smallSize = screenSize.height * AppSizes.marginSmall;
+      rulings!.forEach((rule) {
+        widgets
+            .add(addManaSymbolsToString(imageSize, rule["text"], true, true));
+      });
+      // print(widgets);
+
+      return Container(
+        child: Column(
+          children: [
+            SizedBox(
+              height: screenSize.height *
+                  (AppSizes.marginDefault - AppSizes.marginMicro),
             ),
-          ),
+            Text(
+              "Rulings",
+              style: AppTextTheme.headline3,
+            ),
+            Divider(
+              color: Colors.black,
+            ),
+            SizedBox(
+              height: screenSize.height * AppSizes.marginSmall,
+            ),
+            for (var i = 0; i < widgets.length; i++)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("${rulings![i]["date"]}"),
+                  widgets[i],
+                  SizedBox(
+                    height: smallSize,
+                  ),
+                ],
+              )
+          ],
         ),
       );
     }
@@ -259,7 +279,6 @@ class PlayingCard {
       padding: EdgeInsets.only(bottom: paddingBottom),
       child: Text(str),
     );
-    ;
   }
 
   showSet(double paddingBottom) {

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import 'card_searcher/card_searcher_controller.dart';
 import 'collection/collection_controller.dart';
+import 'deck/deck_controller.dart';
 import 'profile/profile_controller.dart';
 import 'services/api_service.dart';
 import 'show_card/show_card_controller.dart';
@@ -27,5 +28,6 @@ class InitialBinding implements Bindings {
     Get.lazyPut<ProfileController>(() => ProfileController());
     Get.lazyPut<WishlistController>(() => WishlistController());
     Get.lazyPut<ShowCardController>(() => ShowCardController());
+    Get.lazyPut<DeckController>(() => DeckController());
   }
 }
