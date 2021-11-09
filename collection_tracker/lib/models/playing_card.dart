@@ -62,10 +62,10 @@ class PlayingCard {
     printCard();
   }
 
-//få ekstra linjeavstand på \n?
-  addManaSymbolsToString(double imageSize, String? manaCostString) {
-    if (manaCostString != null) {
-      var replaceNewLine = manaCostString.replaceAll("\n", "#");
+  addManaSymbolsToString(double imageSize, String? symbolsString,
+      bool isCenterText, bool shouldTransform) {
+    if (symbolsString != null) {
+      var replaceNewLine = symbolsString.replaceAll("\n", "#");
       var removedSlash = replaceNewLine.replaceAll("/", "");
       var split = removedSlash.split(RegExp("[{}]"));
       split.removeWhere((item) => item == "");
