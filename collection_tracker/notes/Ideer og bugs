@@ -29,6 +29,10 @@ noen dual cards funker ikke (response4 // resurgence)
 
 legg animation og buttons ogsånt i controller og få det til å funke med getx
 
+hente ut alle kort som er land/cost/toughness=5,
+
+https://stackoverflow.com/questions/69187574/send-data-through-arguments-with-getx To named med argumenter
+
 
 nyttige ting:
 

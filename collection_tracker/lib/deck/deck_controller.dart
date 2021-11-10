@@ -3,4 +3,6 @@
 
 import 'package:get/get.dart';
 
-class DeckController extends GetxController {}
+class DeckController extends GetxController {
+  var decks = [].obs;
+}

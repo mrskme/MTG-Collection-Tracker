@@ -6,5 +6,5 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CollectionController extends GetxController {
-  List<PlayingCard> ownedCards = [];
+  RxList<PlayingCard> ownedCards = <PlayingCard>[].obs;
 }

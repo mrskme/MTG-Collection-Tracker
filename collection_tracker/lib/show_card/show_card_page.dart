@@ -1,8 +1,11 @@
 import 'package:collection_tracker/card_searcher/card_searcher_controller.dart';
+import 'package:collection_tracker/collection/collection_controller.dart';
+import 'package:collection_tracker/deck/deck_controller.dart';
 import 'package:collection_tracker/models/playing_card.dart';
 import 'package:collection_tracker/services/api_service.dart';
 import 'package:collection_tracker/theme/text_theme.dart';
 import 'package:collection_tracker/theme/theme_constants.dart';
+import 'package:collection_tracker/wishlist/wishlist_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
@@ -204,6 +207,7 @@ class _MenuButtonsState extends State<MenuButtons>
       degThreeTranslationAnimation;
   late Animation rotationAnimation;
   bool isOpenMenu = false;
+  var controller = Get.find<ShowCardController>();
 
   _MenuButtonsState();
 
@@ -217,30 +221,30 @@ class _MenuButtonsState extends State<MenuButtons>
     animationController = AnimationController(
       vsync: this,
       duration: Duration(
-        milliseconds: 150,
+        milliseconds: 200,
       ),
     );
     degThreeTranslationAnimation = TweenSequence([
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.15), weight: 35.0),
+          tween: Tween<double>(begin: 0.0, end: 1.1), weight: 35.0),
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.15, end: 1.0), weight: 65.0)
+          tween: Tween<double>(begin: 1.1, end: 1.0), weight: 65.0)
     ]).animate(
       animationController,
     );
     degTwoTranslationAnimation = TweenSequence([
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.15), weight: 55.0),
+          tween: Tween<double>(begin: 0.0, end: 1.1), weight: 55.0),
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.15, end: 1.0), weight: 45.0)
+          tween: Tween<double>(begin: 1.1, end: 1.0), weight: 45.0)
     ]).animate(
       animationController,
     );
     degOneTranslationAnimation = TweenSequence([
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.15), weight: 75.0),
+          tween: Tween<double>(begin: 0.0, end: 1.1), weight: 75.0),
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.15, end: 1.0), weight: 25.0)
+          tween: Tween<double>(begin: 1.1, end: 1.0), weight: 25.0)
     ]).animate(
       animationController,
     );
@@ -293,7 +297,8 @@ class _MenuButtonsState extends State<MenuButtons>
                         color: Colors.white,
                       ),
                       onPressed: () => {
-                        print("Clicked blue button"),
+                        print("Clicked collection button"),
+                        controller.addCardToCollection(),
                       },
                     ),
                   ),
@@ -314,7 +319,8 @@ class _MenuButtonsState extends State<MenuButtons>
                         color: Colors.white,
                       ),
                       onPressed: () => {
-                        print("Clicked teal button"),
+                        print("Clicked wishlist button"),
+                        controller.addCardToWishlist(),
                       },
                     ),
                   ),
@@ -335,7 +341,8 @@ class _MenuButtonsState extends State<MenuButtons>
                         color: Colors.white,
                       ),
                       onPressed: () => {
-                        print("Clicked pink button"),
+                        // print("Clicked collection button"),
+                        // controller.addCardToCollection()
                       },
                     ),
                   ),
