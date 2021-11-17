@@ -8,6 +8,7 @@ class PlayingCard {
   late List<String>? names;
   late String? manaCost;
   late int? cmc;
+  late List<String>? colorIdentity;
   late List<String>? variations;
   late List<dynamic>? rulings;
   late String? type;
@@ -33,11 +34,12 @@ class PlayingCard {
   var nothing = SizedBox.shrink();
 
   PlayingCard(var json) {
-    print(json);
     this.name = json["name"];
     this.names = json["names"]?.cast<String>();
     this.manaCost = json["manaCost"];
     this.cmc = json["cmc"]?.toInt();
+    print(json["colorIdentity"].toString());
+    this.colorIdentity = json["colorIdentity"]?.cast<String>();
     this.variations = json["variations"]?.cast<String>();
     this.rulings = json["rulings"];
     this.type = json["type"];
@@ -223,11 +225,12 @@ class PlayingCard {
     var widgets = [];
     if (rulings != null) {
       var smallSize = screenSize.height * AppSizes.marginSmall;
-      rulings!.forEach((rule) {
-        widgets
-            .add(addManaSymbolsToString(imageSize, rule["text"], true, true));
-      });
-      // print(widgets);
+      rulings!.forEach(
+        (rule) {
+          widgets
+              .add(addManaSymbolsToString(imageSize, rule["text"], true, true));
+        },
+      );
 
       return Container(
         child: Column(
@@ -328,6 +331,7 @@ class PlayingCard {
     // print("names: " + names.toString());
     //print("mana cost: " + manaCost.toString());
     // print("cmc: " + cmc.toString());
+    //print("ColorIdentity" + colorIdentity.toString());
     //print("varations: " + variations.toString());
     //print("rulings: " + rulings.toString());
     // print("type: " + type.toString());
@@ -348,6 +352,6 @@ class PlayingCard {
     //print("printing: " + printings.toString());
     // print("Id: " + id.toString());
     // print("gameFormat: " + gameFormat.toString());
-    print("legalities: " + legalities.toString());
+    //print("legalities: " + legalities.toString());
   }
 }

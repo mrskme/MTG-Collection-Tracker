@@ -17,6 +17,15 @@ diagram som viser prosent farger i decket
 
 hente ut alle bilder fra https://scryfall.com/docs/api/card-symbols/all og lagre lokalt
 
+Show card page med parametre (PlayingCard)
+Mappestruktur i collection page
+legge på bakgrunn på text på collection
+zoom inn sånn at jeg ikke får svart på høyre og venstre side på bilde collection
+litt mindre height på kort colleciton
+scrolle den i focus med mer data
+refactor addManaSymbolsToString
+color identity på border
+
 BUGS:
 addManaSymbolsToString() {
     få ekstra linjeavstand på \n;
