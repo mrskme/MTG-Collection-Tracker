@@ -25,6 +25,7 @@ litt mindre height på kort colleciton
 scrolle den i focus med mer data
 refactor addManaSymbolsToString
 color identity på border
+show card list widget
 
 BUGS:
 addManaSymbolsToString() {

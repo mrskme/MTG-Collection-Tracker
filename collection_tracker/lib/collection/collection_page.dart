@@ -7,12 +7,18 @@ import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'dart:async';
 import 'collection_controller.dart';
+import 'package:image/image.dart' as ImagePackage;
 
 var apiController = Get.find<ApiService>();
 
 class CollectionPage extends GetView<CollectionController> {
+  
   @override
   Widget build(BuildContext context) {
+    var imageUrl = controller.ownedCards[i].imageUrl!;
+    var image2 = Image.network(imageUrl);
+    var image = ImagePackage.Image(data: image2);
+  var image = ImagePackage.copyCrop(image2, x, y, w, h)
     double cardHeight = 55;
     return Scaffold(
       appBar: AppWidgets.staticAppBar("Collection", context),
