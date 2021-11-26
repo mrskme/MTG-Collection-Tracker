@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CollectionController extends GetxController {
-  RxList<PlayingCard> ownedCards = <PlayingCard>[].obs;
+  RxList<PlayingCard> allFolder = <PlayingCard>[].obs;
 
   Color getBorderColor(List<String> colorIdentity) {
     if (colorIdentity.length > 1) return Colors.amber.shade400;

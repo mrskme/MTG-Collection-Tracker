@@ -16,7 +16,7 @@ class ShowCardController extends GetxController {
   var deckController = Get.find<DeckController>();
 
   addCardToCollection() {
-    collectionController.ownedCards.add(card);
+    collectionController.allFolder.add(card);
   }
 
   addCardToWishlist() {

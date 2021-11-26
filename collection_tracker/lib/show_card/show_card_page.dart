@@ -132,13 +132,14 @@ class ShowCardPage extends GetView<ShowCardController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: defaultHeight),
-                                    Center(
-                                      child: card.addManaSymbolsToString(
-                                          smallSymbolSize,
-                                          card.text!,
-                                          false,
-                                          true),
-                                    ),
+                                    if (card.text != null)
+                                      Center(
+                                        child: card.addManaSymbolsToString(
+                                            smallSymbolSize,
+                                            card.text!,
+                                            false,
+                                            true),
+                                      ),
                                     SizedBox(
                                       height: defaultHeight,
                                     ),
