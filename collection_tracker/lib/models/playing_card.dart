@@ -61,64 +61,90 @@ class PlayingCard {
     this.id = json["id"];
     this.gameFormat = json["gameFormat"];
     this.legalities = json["legalities"];
-    printCard();
   }
 
-  addManaSymbolsToString(double imageSize, String? symbolsString,
-      bool isCenterText, bool shouldTransform) {
+  dynamic addManaSymbolsToString(
+      {required double symbolSize,
+      String? symbolsString,
+      bool isCenterText = false,
+      bool shouldTransform = false,
+      bool isCardText = false}) {
     if (symbolsString != null) {
-      var replaceNewLine = symbolsString.replaceAll("\n", "#");
-      var removedSlash = replaceNewLine.replaceAll("/", "");
-      var split = removedSlash.split(RegExp("[{}]"));
-      split.removeWhere((item) => item == "");
+      List<String> items = treatString(symbolsString);
       List<InlineSpan> widgets = [];
-      for (var i = 0; i < split.length; i++) {
-        var item = split[i];
+      for (var i = 0; i < items.length; i++) {
+        var item = items[i];
         item = item.replaceAll("#", "\n");
-        if (item.contains("(") && item.contains(")")) {
+        var isItemSymbolAsText =
+            item.contains(RegExp("^[A-Z0-9]")) && item.length < 3;
+        var isItemContainsParenthesis =
+            item.contains("(") && item.contains(")");
+
+        if (isItemContainsParenthesis) {
           //colossus hammer bug
-          int start = item.indexOf("(");
-          int end = item.indexOf(")");
-          var preParenthesisText = item.substring(0, start);
-          var textInParenthesis = item.substring(start, end + 1);
-          var postParenthesisText = item.substring(end + 1, item.length);
-          widgets.add(TextSpan(text: preParenthesisText));
-          widgets.add(TextSpan(
-              text: textInParenthesis,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-              )));
-          widgets.add(TextSpan(text: postParenthesisText));
-        } else if (item.contains(RegExp("^[A-Z0-9]")) && item.length < 3) {
-          widgets.add(WidgetSpan(
-            baseline: TextBaseline.ideographic,
-            child: Container(
-              transform: shouldTransform
-                  ? Matrix4.translationValues(0, -2.5, 0)
-                  : Matrix4.translationValues(0, 0, 0),
-              child: SvgPicture.asset(
-                "assets/symbols/$item.svg",
-                fit: BoxFit.fill,
-                alignment: Alignment.bottomLeft,
-                clipBehavior: Clip.none,
-                height: imageSize,
-                width: imageSize,
-                allowDrawingOutsideViewBox: true,
-              ),
-            ),
-          ));
+          //drogskol reaver bug
+          List<InlineSpan> a = ChangeTextInParenthesisToItalic(item);
+          widgets.addAll(a);
+        } else if (isItemSymbolAsText) {
+          widgets.add(AddSymbol(shouldTransform, item, symbolSize));
         } else {
           widgets.add(TextSpan(text: item));
         }
       }
       return Text.rich(
         TextSpan(
-          children: widgets,
-        ),
+            children: widgets,
+            style:
+                isCardText ? AppTextTheme.bodyText1 : AppTextTheme.bodyText2),
         textAlign: isCenterText ? TextAlign.center : TextAlign.start,
       );
     }
     return nothing;
+  }
+
+  List<String> treatString(String symbolsString) {
+    var StringWithoutLineBreak = symbolsString.replaceAll("\n", "#");
+    var removedSlash = StringWithoutLineBreak.replaceAll("/", "");
+    var items = removedSlash.split(RegExp("[{}]"));
+    items.removeWhere((item) => item == "");
+    return items;
+  }
+
+  ChangeTextInParenthesisToItalic(String item) {
+    int start = item.indexOf("(");
+    int end = item.indexOf(")");
+    var preParenthesisText = item.substring(0, start);
+    var textInParenthesis = item.substring(start, end + 1);
+    var postParenthesisText = item.substring(end + 1, item.length);
+    List<InlineSpan> textSpan = [];
+    textSpan.add(TextSpan(text: preParenthesisText));
+    textSpan.add(TextSpan(
+        text: textInParenthesis,
+        style: TextStyle(
+          fontStyle: FontStyle.italic,
+        )));
+    textSpan.add(TextSpan(text: postParenthesisText));
+
+    return textSpan;
+  }
+
+  AddSymbol(bool shouldTransform, String item, double imageSize) {
+    return WidgetSpan(
+      child: Container(
+        transform: shouldTransform
+            ? Matrix4.translationValues(0, -2.25, 0)
+            : Matrix4.translationValues(0, 0, 0),
+        child: SvgPicture.asset(
+          "assets/symbols/$item.svg",
+          fit: BoxFit.fill,
+          alignment: Alignment.bottomLeft,
+          clipBehavior: Clip.none,
+          height: imageSize,
+          width: imageSize,
+          allowDrawingOutsideViewBox: true,
+        ),
+      ),
+    );
   }
 
   showFlavor(double paddingBottom) {
@@ -221,14 +247,18 @@ class PlayingCard {
     return nothing;
   }
 
-  showRulings(Size screenSize, double imageSize) {
+  showRulings(Size screenSize, double symbolSize) {
     var widgets = [];
     if (rulings != null) {
       var smallSize = screenSize.height * AppSizes.marginSmall;
       rulings!.forEach(
         (rule) {
-          widgets
-              .add(addManaSymbolsToString(imageSize, rule["text"], true, true));
+          widgets.add(addManaSymbolsToString(
+            symbolSize: symbolSize,
+            symbolsString: rule["text"],
+            isCenterText: true,
+            shouldTransform: true,
+          ));
         },
       );
 
@@ -324,34 +354,5 @@ class PlayingCard {
       );
     }
     return nothing;
-  }
-
-  printCard() {
-    // print("name: " + name.toString());
-    // print("names: " + names.toString());
-    //print("mana cost: " + manaCost.toString());
-    // print("cmc: " + cmc.toString());
-    //print("ColorIdentity" + colorIdentity.toString());
-    //print("varations: " + variations.toString());
-    //print("rulings: " + rulings.toString());
-    // print("type: " + type.toString());
-    // print("rarity: " + rarity.toString());
-    //print("text: " + text.toString());
-    // print("set: " + set.toString());
-    // print("setName: " + setName.toString());
-    // print("flavor: " + flavor.toString());
-    // print("artist: " + artist.toString());
-    //print("number: " + number.toString());
-    //print("power: " + power.toString());
-    //print("toughness: " + toughness.toString());
-    //print("loyality: " + loyalty.toString());
-    //print("life: " + life.toString());
-    //print("layout: " + layout.toString());
-    // print("multiverseId: " + multiverseId.toString());
-    // print("imageUrl: " + imageUrl.toString());
-    //print("printing: " + printings.toString());
-    // print("Id: " + id.toString());
-    // print("gameFormat: " + gameFormat.toString());
-    //print("legalities: " + legalities.toString());
   }
 }

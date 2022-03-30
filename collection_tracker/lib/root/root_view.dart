@@ -13,7 +13,7 @@ class RootView extends GetView<RootController> {
           appBar: null,
           body: GetRouterOutlet(
             initialRoute: Routes.Home,
-            // anchorRoute: '/',
+            anchorRoute: '/',
             filterPages: (afterAnchor) {
               return afterAnchor.take(1);
             },

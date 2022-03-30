@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:collection_tracker/models/playing_card.dart';
-import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CollectionController extends GetxController {
-  RxList<PlayingCard> allFolder = <PlayingCard>[].obs;
+class FolderContentController extends GetxController {
+  final RxList<PlayingCard> allCards = <PlayingCard>[].obs;
 
   Color getBorderColor(List<String> colorIdentity) {
     if (colorIdentity.length > 1) return Colors.amber.shade400;

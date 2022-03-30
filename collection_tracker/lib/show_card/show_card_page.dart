@@ -1,5 +1,4 @@
 import 'package:collection_tracker/card_searcher/card_searcher_controller.dart';
-import 'package:collection_tracker/collection/collection_controller.dart';
 import 'package:collection_tracker/deck/deck_controller.dart';
 import 'package:collection_tracker/models/playing_card.dart';
 import 'package:collection_tracker/services/api_service.dart';
@@ -17,6 +16,7 @@ var apiController = Get.find<ApiService>();
 class ShowCardPage extends GetView<ShowCardController> {
   final cardSearcherController = Get.find<CardSearcherController>();
   final cardWidthPercentageOfHeight = 71.551724137931;
+  PlayingCard playingCard = Get.arguments;
 
   double getRaidiansFromDegree(double degree) {
     double unitRadian = 57.295779513;
@@ -25,7 +25,8 @@ class ShowCardPage extends GetView<ShowCardController> {
 
   @override
   Widget build(BuildContext context) {
-    var card = controller.card;
+    // if (controller.card == null) controller.card = card;
+    // if (card == null) controller.card = card;
     var screenSize = MediaQuery.of(context).size;
     var screenHeight = screenSize.height;
     var cardHeight = screenSize.height * 0.50;
@@ -50,38 +51,38 @@ class ShowCardPage extends GetView<ShowCardController> {
                     return SingleChildScrollView(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(
-                            minHeight: viewportConstraints.maxHeight),
+                          minHeight: viewportConstraints.maxHeight,
+                        ),
                         child: Container(
-                          // height: screenSize.height,
-                          decoration: BoxDecoration(
-                              gradient: AppWidgets.backgreoundGradient),
+                          color: Colors.deepPurple[200],
+                          // decoration: BoxDecoration(
+                          //   gradient: AppWidgets.backgreoundGradient,
+                          // ),
                           child: Column(
-                            // crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
                               SizedBox(
                                 height: defaultHeight,
                               ),
                               Text(
-                                card.name!,
+                                playingCard.name!,
                                 textAlign: TextAlign.center,
                                 style: AppTextTheme.headline1,
                               ),
                               Center(
-                                child: card.addManaSymbolsToString(
-                                    largeSymbolSize,
-                                    card.manaCost,
-                                    false,
-                                    false),
+                                child: playingCard.addManaSymbolsToString(
+                                  symbolSize: largeSymbolSize,
+                                  symbolsString: playingCard.manaCost,
+                                ),
                               ),
                               SizedBox(
                                 height: microHeight,
                               ),
                               Text(
-                                card.type!,
+                                playingCard.type!,
                                 textAlign: TextAlign.center,
                                 style: AppTextTheme.headline2,
                               ),
-                              if (card.imageUrl != null)
+                              if (playingCard.imageUrl != null)
                                 SizedBox(height: smallHeight),
                               Align(
                                 child: Container(
@@ -90,7 +91,7 @@ class ShowCardPage extends GetView<ShowCardController> {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(14),
                                     child: Image.network(
-                                      card.imageUrl!,
+                                      playingCard.imageUrl!,
                                       height: cardHeight,
                                       width: cardWidth,
                                       fit: BoxFit.contain,
@@ -132,13 +133,13 @@ class ShowCardPage extends GetView<ShowCardController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     SizedBox(height: defaultHeight),
-                                    if (card.text != null)
-                                      Center(
-                                        child: card.addManaSymbolsToString(
-                                            smallSymbolSize,
-                                            card.text!,
-                                            false,
-                                            true),
+                                    if (playingCard.text != null)
+                                      playingCard.addManaSymbolsToString(
+                                        symbolSize: smallSymbolSize,
+                                        symbolsString: playingCard.text!,
+                                        shouldTransform: true,
+                                        isCardText: true,
+                                        isCenterText: false,
                                       ),
                                     SizedBox(
                                       height: defaultHeight,
@@ -155,13 +156,14 @@ class ShowCardPage extends GetView<ShowCardController> {
                                     SizedBox(
                                       height: smallHeight,
                                     ),
-                                    card.showFlavor(microHeight),
-                                    card.showTotalCMC(microHeight),
-                                    card.showAttributeStatsThingys(microHeight),
-                                    card.showRarity(microHeight),
-                                    card.showSet(microHeight),
-                                    card.showArtist(microHeight),
-                                    card.showRulings(
+                                    playingCard.showFlavor(microHeight),
+                                    playingCard.showTotalCMC(microHeight),
+                                    playingCard
+                                        .showAttributeStatsThingys(microHeight),
+                                    playingCard.showRarity(microHeight),
+                                    playingCard.showSet(microHeight),
+                                    playingCard.showArtist(microHeight),
+                                    playingCard.showRulings(
                                         screenSize, smallSymbolSize),
                                     // SizedBox(
                                     //   height: smallHeight, //or defaultHeight?
@@ -170,7 +172,7 @@ class ShowCardPage extends GetView<ShowCardController> {
                                 ),
                               ),
                               Center(
-                                child: card.showLegalities(screenSize),
+                                child: playingCard.showLegalities(screenSize),
                               ),
                               SizedBox(
                                 height: smallHeight, //or defaultHeight?
@@ -185,7 +187,7 @@ class ShowCardPage extends GetView<ShowCardController> {
               ],
             ),
           ),
-          MenuButtons(screenSize),
+          MenuButtons(screenSize, playingCard),
         ],
       ),
     );
@@ -194,7 +196,11 @@ class ShowCardPage extends GetView<ShowCardController> {
 
 class MenuButtons extends StatefulWidget {
   final screenSize;
-  MenuButtons(this.screenSize);
+  final playingCard;
+  MenuButtons(
+    this.screenSize,
+    this.playingCard,
+  );
 
   @override
   _MenuButtonsState createState() => _MenuButtonsState();
@@ -266,9 +272,9 @@ class _MenuButtonsState extends State<MenuButtons>
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      left: widget.screenSize.width * 0.85,
-      top: widget.screenSize.height * 0.063,
-      //right: widget.screenSize.width * 0.03,
+      left: widget.screenSize.width * 0.895,
+      //left: widget.screenSize.width * 0.5,
+      top: widget.screenSize.height * 0.062,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -293,13 +299,15 @@ class _MenuButtonsState extends State<MenuButtons>
                     child: CircularButton(
                       size: 38,
                       color: Colors.purple.shade900,
+                      isMenuOpen: isOpenMenu,
                       icon: Icon(
                         Icons.collections_bookmark_rounded,
                         color: Colors.white,
                       ),
+                      label: "Collection",
                       onPressed: () => {
                         print("Clicked collection button"),
-                        controller.addCardToCollection(),
+                        controller.addCardToCollection(widget.playingCard),
                       },
                     ),
                   ),
@@ -315,13 +323,15 @@ class _MenuButtonsState extends State<MenuButtons>
                     child: CircularButton(
                       size: 38,
                       color: Colors.indigo.shade800,
+                      isMenuOpen: isOpenMenu,
                       icon: Icon(
                         Icons.favorite_rounded,
                         color: Colors.white,
                       ),
+                      label: "Wishlist",
                       onPressed: () => {
                         print("Clicked wishlist button"),
-                        controller.addCardToWishlist(),
+                        controller.addCardToWishlist(widget.playingCard),
                       },
                     ),
                   ),
@@ -337,10 +347,12 @@ class _MenuButtonsState extends State<MenuButtons>
                     child: CircularButton(
                       size: 38,
                       color: Colors.lightBlue.shade900,
+                      isMenuOpen: isOpenMenu,
                       icon: Icon(
                         CupertinoIcons.layers_alt_fill,
                         color: Colors.white,
                       ),
+                      label: "Decks",
                       onPressed: () => {
                         // print("Clicked collection button"),
                         // controller.addCardToCollection()
@@ -351,6 +363,8 @@ class _MenuButtonsState extends State<MenuButtons>
                 CircularButton(
                   size: 38,
                   color: Colors.teal.shade800,
+                  isMenuOpen: isOpenMenu,
+                  isTopButton: true,
                   icon: Icon(
                     isOpenMenu ? Icons.remove : Icons.add,
                     color: Colors.white,
@@ -384,43 +398,51 @@ class CircularButton extends GetView<ShowCardController> {
   final Icon icon;
   final Function onPressed;
   final double size;
+  final String label;
+  final bool isMenuOpen;
+  final bool isTopButton;
 
   CircularButton({
     required this.color,
     required this.icon,
     required this.onPressed,
     required this.size,
+    this.label = "",
+    required this.isMenuOpen,
+    this.isTopButton = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    //double size = 35;
-    return
-        // Container(
-        //   decoration: BoxDecoration(
-        //     color: color,
-        //     shape: BoxShape.circle,
-        //   ),
-        //   width: size,
-        //   height: size,
-        //   child: IconButton(
-        //     enableFeedback: true,
-        //     icon: icon,
-        //     onPressed: () => {
-        //       onPressed(),
-        //     },
-        //   ),
-
-        Container(
+    return Container(
       height: size,
       width: size,
-      child: FloatingActionButton(
-          heroTag: null,
-          backgroundColor: color,
-          onPressed: () => {
-                onPressed(),
-              },
-          child: icon),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          FloatingActionButton(
+            tooltip: label,
+            heroTag: null,
+            backgroundColor: color,
+            onPressed: () => {
+              onPressed(),
+            },
+            child: icon,
+          ),
+          if (!isTopButton && isMenuOpen)
+            Positioned(
+              top: 4,
+              right: 40,
+              child: Card(
+                color: Colors.white.withOpacity(0.8),
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Text(label),
+                ),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

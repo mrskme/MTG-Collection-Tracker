@@ -1,5 +1,9 @@
 import 'package:collection_tracker/card_searcher/card_searcher_bindings.dart';
 import 'package:collection_tracker/card_searcher/card_searcher_page.dart';
+import 'package:collection_tracker/collection/collection/collection_bindings.dart';
+import 'package:collection_tracker/collection/collection/collection_page.dart';
+import 'package:collection_tracker/collection/folder_content/folder_content_bindings.dart';
+import 'package:collection_tracker/collection/folder_content/folder_content_page.dart';
 import 'package:collection_tracker/home_page/home_page.dart';
 import 'package:collection_tracker/home_page/home_page_bindings.dart';
 import 'package:collection_tracker/root/root_bindings.dart';
@@ -28,15 +32,27 @@ class AppPages {
           binding: HomeMainBindings(),
           children: [
             GetPage(
+              name: Paths.showCard,
+              page: () => ShowCardPage(),
+              binding: ShowCardBindings(),
+            ),
+            GetPage(
               name: Paths.searcher,
               page: () => CardSearcherPage(),
               binding: CardSearcherBindings(),
             ),
             GetPage(
-              name: Paths.showCard,
-              page: () => ShowCardPage(),
-              binding: ShowCardBindings(),
-            )
+              name: Paths.collection,
+              page: () => CollectionPage(),
+              binding: CollectionBinding(),
+              children: [
+                GetPage(
+                  name: Paths.folderContent,
+                  page: () => FolderContentPage(),
+                  binding: FolderContentBinding(),
+                ),
+              ],
+            ),
           ],
         ),
       ],

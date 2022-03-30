@@ -22,7 +22,7 @@ class ApiService extends GetxService {
     List<String> jsonStringCards = cardsJson.cast<String>();
     _cardNames.value = jsonStringCards;
     _isLoadingCards.value = false;
-    print("Fetched and saved all card names. Count ${_cardNames.length}");
+    print("Fetched and saved all card names. Count: ${_cardNames.length}");
   }
 
   Future<List<dynamic>> fetchCardNames() async {
@@ -33,7 +33,7 @@ class ApiService extends GetxService {
               .get("https://api.scryfall.com/catalog/card-names");
       cardNames = response.data["data"];
     } on Exception catch (e) {
-      cardNames = ["Couldn't find cardnames"];
+      cardNames = ["Couldn't find cards"];
       print(e);
     }
     return cardNames;

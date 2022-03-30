@@ -1,5 +1,5 @@
 import 'package:collection_tracker/card_searcher/card_searcher_page.dart';
-import 'package:collection_tracker/collection/collection_page.dart';
+import 'package:collection_tracker/collection/collection/collection_page.dart';
 import 'package:collection_tracker/deck/deck_page.dart';
 import 'package:collection_tracker/profile/profile_page.dart';
 import 'package:collection_tracker/wishlist/wishlist_page.dart';

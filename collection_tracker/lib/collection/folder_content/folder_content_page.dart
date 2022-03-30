@@ -1,26 +1,15 @@
-import 'package:collection_tracker/services/api_service.dart';
-import 'package:collection_tracker/theme/text_theme.dart';
+import 'package:collection_tracker/collection/folder_content/folder_content_controller.dart';
+import 'package:collection_tracker/models/playing_card.dart';
 import 'package:collection_tracker/theme/theme_constants.dart';
-import 'package:image_cropper/image_cropper.dart';
-
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'dart:async';
-import 'collection_controller.dart';
-// import 'package:image/image.dart' as ImagePackage;
+import 'package:get/get.dart';
 
-var apiController = Get.find<ApiService>();
-
-class CollectionPage extends GetView<CollectionController> {
+class FolderContentPage extends GetView<FolderContentController> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    List<PlayingCard> cardList = Get.arguments;
 
-    //   var imageUrl = controller.ownedCards[i].imageUrl!;
-    //   var image2 = Image.network(imageUrl);
-    //   var image = ImagePackage.Image(data: image2);
-    // var image = ImagePackage.copyCrop(image2, x, y, w, h)
     double cardHeight = 45;
     return Scaffold(
       appBar: AppWidgets.staticAppBar("Collection", context),
@@ -29,23 +18,39 @@ class CollectionPage extends GetView<CollectionController> {
           gradient: AppWidgets.backgreoundGradient,
         ),
         child: ListView.builder(
-          itemCount: controller.allFolder.length,
+          itemCount: cardList.length,
           itemBuilder: (context, i) {
             return Container(
-              color: Colors.orange,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(6),
+                color: Colors.orange,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black,
+                    blurRadius: 2.0,
+                    spreadRadius: 0.0,
+                    offset: Offset(2.0, 2.0),
+                  )
+                ],
+              ),
               height: cardHeight,
               margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 4),
               child: Stack(
-                clipBehavior: Clip.none,
                 children: [
-                  Positioned.fill(
-                    child: ClipRect(
-                      clipBehavior: Clip.antiAlias,
-                      child: Container(
+                  Transform(
+                    transform: Matrix4.diagonal3Values(1.195, 1.0, 1.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: Align(
+                        alignment: Alignment.center,
+                        widthFactor: 0.84,
+                        heightFactor: 1,
                         child: Image.network(
-                          controller.allFolder[i].imageUrl!,
+                          cardList[i].imageUrl!,
                           alignment: Alignment(0, -0.5),
                           fit: BoxFit.cover,
+                          height: screenSize.height,
+                          width: screenSize.width,
                         ),
                       ),
                     ),
@@ -65,7 +70,7 @@ class CollectionPage extends GetView<CollectionController> {
                               TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "${controller.allFolder[i].name!}\n",
+                                    text: "${cardList[i].name!}\n",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1!
@@ -75,7 +80,7 @@ class CollectionPage extends GetView<CollectionController> {
                                         ),
                                   ),
                                   TextSpan(
-                                    text: "${controller.allFolder[i].type}",
+                                    text: "${cardList[i].type}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyText1!
@@ -89,8 +94,11 @@ class CollectionPage extends GetView<CollectionController> {
                             ),
                           ),
                         ),
-                        controller.allFolder[i].addManaSymbolsToString(
-                            20, controller.allFolder[i].manaCost, true, false),
+                        cardList[i].addManaSymbolsToString(
+                          symbolSize: 16,
+                          symbolsString: cardList[i].manaCost,
+                          isCenterText: true,
+                        ),
                       ],
                     ),
                   )
@@ -149,5 +157,28 @@ class CollectionPage extends GetView<CollectionController> {
         ),
       ),
     );
+  }
+}
+
+class MyClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = _getPath(size);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
+  }
+
+  Path _getPath(Size size) {
+    var path = Path();
+    path.moveTo(size.width * 0.04, 0);
+    path.lineTo(size.width * 0.04, size.height);
+    path.lineTo(size.width * 0.96, size.height);
+    path.lineTo(size.width * 0.96, 0);
+    path.lineTo(size.width * 0.04, 0);
+    return path;
   }
 }
